@@ -1,0 +1,1223 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/14/2021 9:27:45 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="LXAPO0087"
+  DTS:CreatorName="LXAPO0087\Juan Carlos Padilla"
+  DTS:DTSID="{7462738C-F81D-420C-8618-E5A535667641}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.150"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="STG_ACS_TB_ACREENCIA"
+  DTS:PackageType="5"
+  DTS:VersionBuild="19"
+  DTS:VersionGUID="{20BA4A40-D990-45B3-BD53-014CC9FE9717}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{42130347-B061-4F7E-9796-29DBF932EB07}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="cKeyColumn">
+      <DTS:VariableValue
+        DTS:DataType="8">NUMACRE</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{24C17485-95A2-4AB2-B760-B6803C8C7085}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="cObject">
+      <DTS:VariableValue
+        DTS:DataType="8">acreencia</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{3E98FD46-6EC5-4093-A14C-72460712FF78}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;stg_acs_tb_&quot; + (DT_WSTR, 30)@[User::cObject]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="cObjectSrc">
+      <DTS:VariableValue
+        DTS:DataType="8">stg_acs_tb_acreencia</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{356743B4-AF3C-45D7-99D3-402F891B7B1C}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Project::ODS_TempSquema]+ &quot;.stg_acs_tb_&quot; + (DT_WSTR, 30)@[User::cObject]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="cObjectTempDest">
+      <DTS:VariableValue
+        DTS:DataType="8">temp.stg_acs_tb_acreencia</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{678E7D9E-89DF-4080-80B5-CB3297AD1BBC}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT NUMACRE,STSACRE,FECSTS,TIPOACRE,CODMONEDA,MTOACRELOCAL,MTOACREMONEDA,FECVENCACRE,SLDOACRELOCAL,SLDOACREMONEDA,CODINTERLIDER,TIPOID,NUMID,DVID,IDEFACT,DPTOEMI,NUMRELINGEN,COMPROBANTE,MTOCOMPLOCAL  FROM &quot; + (DT_WSTR, 30)@[User::cObject]  + &quot; WHERE ROWNUM &lt;= 10000&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="cQuery">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT NUMACRE,STSACRE,FECSTS,TIPOACRE,CODMONEDA,MTOACRELOCAL,MTOACREMONEDA,FECVENCACRE,SLDOACRELOCAL,SLDOACREMONEDA,CODINTERLIDER,TIPOID,NUMID,DVID,IDEFACT,DPTOEMI,NUMRELINGEN,COMPROBANTE,MTOCOMPLOCAL  FROM acreencia WHERE ROWNUM &lt;= 10000</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{960212FC-606A-4871-95F9-3326D38F1B2F}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;ALTER SCHEMA swap TRANSFER &quot; + @[$Project::ODS_Squema]  + &quot;.&quot; +  @[User::cObjectSrc] +&quot;;&#xA;ALTER SCHEMA dbo TRANSFER &quot; + @[$Project::ODS_TempSquema]  + &quot;.&quot; +  @[User::cObjectSrc] +&quot;;&#xA;ALTER SCHEMA temp TRANSFER &quot; + @[$Project::ODS_SwapSquema]  + &quot;.&quot; +  @[User::cObjectSrc] +&quot;;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="cQuerySwap">
+      <DTS:VariableValue
+        DTS:DataType="8">ALTER SCHEMA swap TRANSFER dbo.stg_acs_tb_acreencia;
+ALTER SCHEMA dbo TRANSFER temp.stg_acs_tb_acreencia;
+ALTER SCHEMA temp TRANSFER swap.stg_acs_tb_acreencia;</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{768E0F57-BC6E-41AB-A8F2-D66D87D2A058}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;IF object_id('&quot; +  @[$Project::ODS_TempSquema]+ &quot;.stg_acs_tb_&quot; + (DT_WSTR, 30)@[User::cObject]+ &quot;') IS NULL &quot;&#xA;+ &#xA;&quot; EXEC [sp_CreateScriptTable]   '&quot; + @[$Project::ODS_DBName] + &quot;','&quot; + @[$Project::ODS_Squema]  + &quot;','&quot; + (DT_WSTR, 30)@[User::cObjectSrc] +&#xA; &quot;', 1,1,'&quot; + @[$Project::ODS_TempSquema] + &quot;','&quot;  + (DT_WSTR, 30)@[User::cObjectSrc] + &quot;',0&quot; + &#xA;&quot; ELSE &quot; +&#xA;&quot; TRUNCATE TABLE &quot; + @[$Project::ODS_TempSquema]  + &quot;.&quot;  + (DT_WSTR, 30)@[User::cObjectSrc]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="cQueryTempTable">
+      <DTS:VariableValue
+        DTS:DataType="8">IF object_id('temp.stg_acs_tb_acreencia') IS NULL  EXEC [sp_CreateScriptTable]   'STAGING_IND','dbo','stg_acs_tb_acreencia', 1,1,'temp','stg_acs_tb_acreencia',0 ELSE  TRUNCATE TABLE temp.stg_acs_tb_acreencia</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{62FAE459-504D-4AFF-8897-C8395606676D}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT &quot; + (DT_WSTR, 30)@[User::cKeyColumn] +  &quot; FROM stg_acs_tb_&quot; + (DT_WSTR, 30)@[User::cObject] +  &quot; ORDER BY &quot; +  (DT_WSTR, 30)@[User::cKeyColumn]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="cQuerytoUpd">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT NUMACRE FROM stg_acs_tb_acreencia ORDER BY NUMACRE</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{CCCCB91D-EB00-4111-95E3-5213B221658B}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;IF EXISTS (SELECT TOP 1 * FROM [&quot; + @[$Project::ODS_Squema] + &quot;].&quot; + @[$Project::ODS_TempSquema]+ &quot;_stg_acs_tb_&quot; +  @[User::cObject] +&quot;) EXEC [sp_UpdateScriptTable] '&quot; + @[$Project::ODS_DBName]  + &quot;','&quot; + @[$Project::ODS_Squema]  + &quot;', 'stg_acs_tb_&quot; + (DT_WSTR, 30)@[User::cObject]  +&#xA;&quot;', 0,0,'&quot; + @[$Project::ODS_Squema] +&#xA;&quot;','&quot; + @[$Project::ODS_TempSquema]+ &quot;_stg_acs_tb_&quot; + (DT_WSTR, 30)@[User::cObject]+&quot;',0&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="cQueryUpdateTable">
+      <DTS:VariableValue
+        DTS:DataType="8">IF EXISTS (SELECT TOP 1 * FROM [dbo].temp_stg_acs_tb_acreencia) EXEC [sp_UpdateScriptTable] 'STAGING_IND','dbo', 'stg_acs_tb_acreencia', 0,0,'dbo','temp_stg_acs_tb_acreencia',0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT ACREENCIA"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{050A4526-36FD-4D2D-9810-633EC3B8D4FF}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT ACREENCIA"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLEDB_DEST NEW ROWS"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable">User::cObjectTempDest</property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">4</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">100000</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Connections[OleDbConnection]"
+                  connectionManagerID="{F3C442A5-B19E-477E-BA6F-2D5D5C359F06}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[VMS-SV D027 STAGING_IND sql_desa]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].Columns[NUMACRE]"
+                      cachedDataType="numeric"
+                      cachedName="NUMACRE"
+                      cachedPrecision="14"
+                      cachedSortKeyPosition="1"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[NUMACRE]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[NUMACRE]" />
+                    <inputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].Columns[STSACRE]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="STSACRE"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[STSACRE]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[STSACRE]" />
+                    <inputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].Columns[FECSTS]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="FECSTS"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[FECSTS]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[FECSTS]" />
+                    <inputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].Columns[TIPOACRE]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="TIPOACRE"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[TIPOACRE]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[TIPOACRE]" />
+                    <inputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].Columns[CODMONEDA]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="CODMONEDA"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[CODMONEDA]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[CODMONEDA]" />
+                    <inputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].Columns[MTOACRELOCAL]"
+                      cachedDataType="numeric"
+                      cachedName="MTOACRELOCAL"
+                      cachedPrecision="14"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[MTOACRELOCAL]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[MTOACRELOCAL]" />
+                    <inputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].Columns[MTOACREMONEDA]"
+                      cachedDataType="numeric"
+                      cachedName="MTOACREMONEDA"
+                      cachedPrecision="16"
+                      cachedScale="4"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[MTOACREMONEDA]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[MTOACREMONEDA]" />
+                    <inputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].Columns[FECVENCACRE]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="FECVENCACRE"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[FECVENCACRE]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[FECVENCACRE]" />
+                    <inputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].Columns[SLDOACRELOCAL]"
+                      cachedDataType="numeric"
+                      cachedName="SLDOACRELOCAL"
+                      cachedPrecision="14"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[SLDOACRELOCAL]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[SLDOACRELOCAL]" />
+                    <inputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].Columns[SLDOACREMONEDA]"
+                      cachedDataType="numeric"
+                      cachedName="SLDOACREMONEDA"
+                      cachedPrecision="16"
+                      cachedScale="4"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[SLDOACREMONEDA]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[SLDOACREMONEDA]" />
+                    <inputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].Columns[CODINTERLIDER]"
+                      cachedDataType="wstr"
+                      cachedLength="8"
+                      cachedName="CODINTERLIDER"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[CODINTERLIDER]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[CODINTERLIDER]" />
+                    <inputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].Columns[TIPOID]"
+                      cachedDataType="wstr"
+                      cachedLength="1"
+                      cachedName="TIPOID"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[TIPOID]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[TIPOID]" />
+                    <inputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].Columns[NUMID]"
+                      cachedDataType="numeric"
+                      cachedName="NUMID"
+                      cachedPrecision="9"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[NUMID]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[NUMID]" />
+                    <inputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].Columns[DVID]"
+                      cachedDataType="wstr"
+                      cachedLength="1"
+                      cachedName="DVID"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[DVID]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[DVID]" />
+                    <inputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].Columns[IDEFACT]"
+                      cachedDataType="numeric"
+                      cachedName="IDEFACT"
+                      cachedPrecision="14"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[IDEFACT]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[IDEFACT]" />
+                    <inputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].Columns[DPTOEMI]"
+                      cachedDataType="wstr"
+                      cachedLength="6"
+                      cachedName="DPTOEMI"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[DPTOEMI]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[DPTOEMI]" />
+                    <inputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].Columns[NUMRELINGEN]"
+                      cachedDataType="numeric"
+                      cachedName="NUMRELINGEN"
+                      cachedPrecision="10"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[NUMRELINGEN]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[NUMRELINGEN]" />
+                    <inputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].Columns[COMPROBANTE]"
+                      cachedDataType="numeric"
+                      cachedName="COMPROBANTE"
+                      cachedPrecision="10"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[COMPROBANTE]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[COMPROBANTE]" />
+                    <inputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].Columns[MTOCOMPLOCAL]"
+                      cachedDataType="numeric"
+                      cachedName="MTOCOMPLOCAL"
+                      cachedPrecision="16"
+                      cachedScale="4"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[MTOCOMPLOCAL]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[MTOCOMPLOCAL]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[NUMACRE]"
+                      dataType="i8"
+                      name="NUMACRE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[STSACRE]"
+                      dataType="wstr"
+                      length="3"
+                      name="STSACRE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[FECSTS]"
+                      dataType="dbTimeStamp"
+                      name="FECSTS" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[TIPOACRE]"
+                      dataType="wstr"
+                      length="3"
+                      name="TIPOACRE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[CODMONEDA]"
+                      dataType="wstr"
+                      length="3"
+                      name="CODMONEDA" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[MTOACRELOCAL]"
+                      dataType="numeric"
+                      name="MTOACRELOCAL"
+                      precision="14"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[MTOACREMONEDA]"
+                      dataType="numeric"
+                      name="MTOACREMONEDA"
+                      precision="16"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[FECVENCACRE]"
+                      dataType="dbTimeStamp"
+                      name="FECVENCACRE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[SLDOACRELOCAL]"
+                      dataType="numeric"
+                      name="SLDOACRELOCAL"
+                      precision="14"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[SLDOACREMONEDA]"
+                      dataType="numeric"
+                      name="SLDOACREMONEDA"
+                      precision="16"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[CODINTERLIDER]"
+                      dataType="wstr"
+                      length="8"
+                      name="CODINTERLIDER" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[TIPOID]"
+                      dataType="wstr"
+                      length="1"
+                      name="TIPOID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[NUMID]"
+                      dataType="i4"
+                      name="NUMID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[DVID]"
+                      dataType="wstr"
+                      length="1"
+                      name="DVID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[IDEFACT]"
+                      dataType="i8"
+                      name="IDEFACT" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[DPTOEMI]"
+                      dataType="wstr"
+                      length="6"
+                      name="DPTOEMI" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[NUMRELINGEN]"
+                      dataType="i8"
+                      name="NUMRELINGEN" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[COMPROBANTE]"
+                      dataType="i8"
+                      name="COMPROBANTE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input].ExternalColumns[MTOCOMPLOCAL]"
+                      dataType="i8"
+                      name="MTOCOMPLOCAL" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLEDB_SRC ORACLE OBJECT"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable">User::cQuery</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Connections[OleDbConnection]"
+                  connectionManagerID="{36E41971-E1F4-4CB9-A2A4-72841D6E4D8D}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[RAPELDEV.ACSEL 2]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output]"
+                  isSorted="true"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[NUMACRE]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[NUMACRE]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[NUMACRE]"
+                      name="NUMACRE"
+                      precision="14"
+                      sortKeyPosition="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[STSACRE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[STSACRE]"
+                      length="3"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[STSACRE]"
+                      name="STSACRE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[FECSTS]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[FECSTS]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[FECSTS]"
+                      name="FECSTS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[TIPOACRE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[TIPOACRE]"
+                      length="3"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[TIPOACRE]"
+                      name="TIPOACRE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[CODMONEDA]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[CODMONEDA]"
+                      length="3"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[CODMONEDA]"
+                      name="CODMONEDA"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[MTOACRELOCAL]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[MTOACRELOCAL]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[MTOACRELOCAL]"
+                      name="MTOACRELOCAL"
+                      precision="14"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[MTOACREMONEDA]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[MTOACREMONEDA]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[MTOACREMONEDA]"
+                      name="MTOACREMONEDA"
+                      precision="16"
+                      scale="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[FECVENCACRE]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[FECVENCACRE]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[FECVENCACRE]"
+                      name="FECVENCACRE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[SLDOACRELOCAL]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[SLDOACRELOCAL]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[SLDOACRELOCAL]"
+                      name="SLDOACRELOCAL"
+                      precision="14"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[SLDOACREMONEDA]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[SLDOACREMONEDA]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[SLDOACREMONEDA]"
+                      name="SLDOACREMONEDA"
+                      precision="16"
+                      scale="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[CODINTERLIDER]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[CODINTERLIDER]"
+                      length="8"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[CODINTERLIDER]"
+                      name="CODINTERLIDER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[TIPOID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[TIPOID]"
+                      length="1"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[TIPOID]"
+                      name="TIPOID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[NUMID]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[NUMID]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[NUMID]"
+                      name="NUMID"
+                      precision="9"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[DVID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[DVID]"
+                      length="1"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[DVID]"
+                      name="DVID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[IDEFACT]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[IDEFACT]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[IDEFACT]"
+                      name="IDEFACT"
+                      precision="14"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[DPTOEMI]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[DPTOEMI]"
+                      length="6"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[DPTOEMI]"
+                      name="DPTOEMI"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[NUMRELINGEN]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[NUMRELINGEN]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[NUMRELINGEN]"
+                      name="NUMRELINGEN"
+                      precision="10"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[COMPROBANTE]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[COMPROBANTE]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[COMPROBANTE]"
+                      name="COMPROBANTE"
+                      precision="10"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[MTOCOMPLOCAL]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[MTOCOMPLOCAL]"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].Columns[MTOCOMPLOCAL]"
+                      name="MTOCOMPLOCAL"
+                      precision="16"
+                      scale="4"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[NUMACRE]"
+                      dataType="numeric"
+                      name="NUMACRE"
+                      precision="14" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[STSACRE]"
+                      dataType="wstr"
+                      length="3"
+                      name="STSACRE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[FECSTS]"
+                      dataType="dbTimeStamp"
+                      name="FECSTS" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[TIPOACRE]"
+                      dataType="wstr"
+                      length="3"
+                      name="TIPOACRE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[CODMONEDA]"
+                      dataType="wstr"
+                      length="3"
+                      name="CODMONEDA" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[MTOACRELOCAL]"
+                      dataType="numeric"
+                      name="MTOACRELOCAL"
+                      precision="14"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[MTOACREMONEDA]"
+                      dataType="numeric"
+                      name="MTOACREMONEDA"
+                      precision="16"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[FECVENCACRE]"
+                      dataType="dbTimeStamp"
+                      name="FECVENCACRE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[SLDOACRELOCAL]"
+                      dataType="numeric"
+                      name="SLDOACRELOCAL"
+                      precision="14"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[SLDOACREMONEDA]"
+                      dataType="numeric"
+                      name="SLDOACREMONEDA"
+                      precision="16"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[CODINTERLIDER]"
+                      dataType="wstr"
+                      length="8"
+                      name="CODINTERLIDER" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[TIPOID]"
+                      dataType="wstr"
+                      length="1"
+                      name="TIPOID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[NUMID]"
+                      dataType="numeric"
+                      name="NUMID"
+                      precision="9" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[DVID]"
+                      dataType="wstr"
+                      length="1"
+                      name="DVID" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[IDEFACT]"
+                      dataType="numeric"
+                      name="IDEFACT"
+                      precision="14" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[DPTOEMI]"
+                      dataType="wstr"
+                      length="6"
+                      name="DPTOEMI" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[NUMRELINGEN]"
+                      dataType="numeric"
+                      name="NUMRELINGEN"
+                      precision="10" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[COMPROBANTE]"
+                      dataType="numeric"
+                      name="COMPROBANTE"
+                      precision="10" />
+                    <externalMetadataColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output].ExternalColumns[MTOCOMPLOCAL]"
+                      dataType="numeric"
+                      name="MTOCOMPLOCAL"
+                      precision="16"
+                      scale="4" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[NUMACRE]"
+                      dataType="numeric"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[NUMACRE]"
+                      name="NUMACRE"
+                      precision="14" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[STSACRE]"
+                      dataType="wstr"
+                      length="3"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[STSACRE]"
+                      name="STSACRE" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[FECSTS]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[FECSTS]"
+                      name="FECSTS" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[TIPOACRE]"
+                      dataType="wstr"
+                      length="3"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[TIPOACRE]"
+                      name="TIPOACRE" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[CODMONEDA]"
+                      dataType="wstr"
+                      length="3"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[CODMONEDA]"
+                      name="CODMONEDA" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[MTOACRELOCAL]"
+                      dataType="numeric"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[MTOACRELOCAL]"
+                      name="MTOACRELOCAL"
+                      precision="14"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[MTOACREMONEDA]"
+                      dataType="numeric"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[MTOACREMONEDA]"
+                      name="MTOACREMONEDA"
+                      precision="16"
+                      scale="4" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[FECVENCACRE]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[FECVENCACRE]"
+                      name="FECVENCACRE" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[SLDOACRELOCAL]"
+                      dataType="numeric"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[SLDOACRELOCAL]"
+                      name="SLDOACRELOCAL"
+                      precision="14"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[SLDOACREMONEDA]"
+                      dataType="numeric"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[SLDOACREMONEDA]"
+                      name="SLDOACREMONEDA"
+                      precision="16"
+                      scale="4" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[CODINTERLIDER]"
+                      dataType="wstr"
+                      length="8"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[CODINTERLIDER]"
+                      name="CODINTERLIDER" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[TIPOID]"
+                      dataType="wstr"
+                      length="1"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[TIPOID]"
+                      name="TIPOID" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[NUMID]"
+                      dataType="numeric"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[NUMID]"
+                      name="NUMID"
+                      precision="9" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[DVID]"
+                      dataType="wstr"
+                      length="1"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[DVID]"
+                      name="DVID" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[IDEFACT]"
+                      dataType="numeric"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[IDEFACT]"
+                      name="IDEFACT"
+                      precision="14" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[DPTOEMI]"
+                      dataType="wstr"
+                      length="6"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[DPTOEMI]"
+                      name="DPTOEMI" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[NUMRELINGEN]"
+                      dataType="numeric"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[NUMRELINGEN]"
+                      name="NUMRELINGEN"
+                      precision="10" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[COMPROBANTE]"
+                      dataType="numeric"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[COMPROBANTE]"
+                      name="COMPROBANTE"
+                      precision="10" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[MTOCOMPLOCAL]"
+                      dataType="numeric"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[MTOCOMPLOCAL]"
+                      name="MTOCOMPLOCAL"
+                      precision="16"
+                      scale="4" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT ACREENCIA.Paths[OLE DB Source Output]"
+              endId="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\ESQLT CREATE TEMP TABLE"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{9D1B1591-9CEA-4995-8614-2881626A41EC}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="ESQLT CREATE TEMP TABLE"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F3C442A5-B19E-477E-BA6F-2D5D5C359F06}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::cQueryTempTable" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\ESQLT SWAP TABLES"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{A5090BEA-7292-4646-8E75-9423DE0F2212}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="ESQLT SWAP TABLES"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F3C442A5-B19E-477E-BA6F-2D5D5C359F06}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::cQuerySwap" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\ESQLT TRUNCATE TEMP TABLE"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{E6310468-44A9-4894-9FBF-95ABCD1CE0ED}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="ESQLT TRUNCATE TEMP TABLE"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F3C442A5-B19E-477E-BA6F-2D5D5C359F06}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::cQueryTempTable" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{EC2999A4-75DD-44F1-AFF1-C921B44177EF}"
+      DTS:From="Package\ESQLT CREATE TEMP TABLE"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\DFT ACREENCIA" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{9DFFC15E-4AB2-42F0-A2C4-FA6DABDF4BB8}"
+      DTS:From="Package\DFT ACREENCIA"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\ESQLT SWAP TABLES" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{716E1146-1D26-45D2-BC25-9C4A33A1D2EE}"
+      DTS:From="Package\ESQLT SWAP TABLES"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\ESQLT TRUNCATE TEMP TABLE" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="157,42"
+          Id="Package\DFT ACREENCIA"
+          TopLeft="291,81" />
+        <NodeLayout
+          Size="214,42"
+          Id="Package\ESQLT CREATE TEMP TABLE"
+          TopLeft="116,34" />
+        <NodeLayout
+          Size="229,42"
+          Id="Package\ESQLT TRUNCATE TEMP TABLE"
+          TopLeft="605.5,178.5" />
+        <NodeLayout
+          Size="181,42"
+          Id="Package\ESQLT SWAP TABLES"
+          TopLeft="443,130" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="330,55">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="39.5,26"
+              Start="0,0"
+              End="39.5,18.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="35.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="35.5,0"
+                    Point2="39.5,0"
+                    Point3="39.5,4" />
+                  <mssgle:LineSegment
+                    End="39.5,18.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="448,102">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="85.5,28"
+              Start="0,0"
+              End="85.5,20.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="81.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="81.5,0"
+                    Point2="85.5,0"
+                    Point3="85.5,4" />
+                  <mssgle:LineSegment
+                    End="85.5,20.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="624,151">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="96,27.5"
+              Start="0,0"
+              End="96,20">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="92,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="92,0"
+                    Point2="96,0"
+                    Point3="96,4" />
+                  <mssgle:LineSegment
+                    End="96,20" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT ACREENCIA">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="202,42"
+          Id="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS"
+          TopLeft="153.545454545455,249" />
+        <NodeLayout
+          Size="218,42"
+          Id="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT"
+          TopLeft="147,52" />
+        <EdgeLayout
+          Id="Package\DFT ACREENCIA.Paths[OLE DB Source Output]"
+          TopLeft="255.272727272727,94">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,155"
+              Start="0,0"
+              End="0,147.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,147.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT ACREENCIA\OLEDB_DEST NEW ROWS">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT ACREENCIA\OLEDB_SRC ORACLE OBJECT">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

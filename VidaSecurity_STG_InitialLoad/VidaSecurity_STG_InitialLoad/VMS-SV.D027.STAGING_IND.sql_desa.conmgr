@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="VMS-SV D027 STAGING_IND sql_desa"
+  DTS:DTSID="{F3C442A5-B19E-477E-BA6F-2D5D5C359F06}"
+  DTS:CreationName="OLEDB">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectionString="Data Source=10.62.4.27;User ID=sql_desa;Initial Catalog=STAGING_IND;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAKC4gxnYmvEuCRCCV0X7/9wAAAAACAAAAAAAQZgAAAAEAACAAAACm1LSDTNZEbw3lE/IJEqPAXI3YT4zDp7n5/THBUb327gAAAAAOgAAAAAIAACAAAACxm8vAYr1/1AhVqVIGSd2apdvA3A4lQT2HsTuJaxEuD4AAAABysjfb6+lrq/I/ZGqPUKV+ipolJEF0b7YCgrCRvzvgIY/9gb1uw//yCmGnXN5I6nf0bnxAITnxiuE2gEmoZN+Fwfh33i4CpNZWEGeIALyV0G9h3BDzd4i0hg4hARUkTFCVceFNtzYPSJ57sYA6vvzb54YFJZ2Ec+FX8ZbYFiaxw0AAAAAFVh/revGrjl3ATFB0JjIzZs22pIlmJhRQ58wyiieApmeh5v2jBr2jiHXSG/f8QWh+UGv3Lkdk6WzqsaFz2k7d</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

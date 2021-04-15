@@ -1,0 +1,14 @@
+﻿<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="RAPELDEV.ACSEL"
+  DTS:DTSID="{F189F9CE-A5D3-4EB1-B788-F60A44788549}"
+  DTS:CreationName="OLEDB">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectionString="Data Source=RAPELDEV;User ID=ACSEL;Provider=OraOLEDB.Oracle.1;Persist Security Info=True;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAKC4gxnYmvEuCRCCV0X7/9wAAAAACAAAAAAAQZgAAAAEAACAAAABlKiYjkBID5/ciSFvARKh2t3DXVuk2L5uVxXkHuRm3ZQAAAAAOgAAAAAIAACAAAAC0ifv9z/GUdk/BBx4/n2UQaE6m++suyfXtRvpC5ge/SXAAAACgnYiIrs597VNBNAqwfGK0zacuSUkpKEbLdDULhgTLkHXLHB1KEfhUrwr3UIP0yWW+tpgKMYX9lX372ZEW8MsuvuH0el+zBDGFQziFeCgV/bbhs0MLh/AlYPAaNruhzwroWXNmBk+p9ZLT+o3uBh4wQAAAAL/oLr0k6X8pkwwgtwST0oMYB2azG1+lGc9vbp2t5Fomidts9xj840gHv5UlmyalQKxCDVRMOWnRwPyG7MlKgpA=</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>
